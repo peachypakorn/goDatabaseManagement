@@ -1,28 +1,37 @@
 package autofillDB
 
 import (
-	"path/filepath"
-	"os"
-	"databaseManagement/tableTemplate"
+	"encoding/csv"
+	"io"
+	"log"
+	"fmt"
+	"io/ioutil"
+	"databaseManagement/utils"
+	"strings"
 )
 
-func ReadCSVFromFile(filepath string)(readedFile *os.File){
-	readedFile, err := os.OpenFile("clients.csv", os.O_RDWR|os.O_CREATE, os.ModePerm)
-	if err != nil {
-		panic(err)
-	}
-	defer readedFile.Close()
+func ReadFile(filepath string)(readedFile string){
+	file, err := ioutil.ReadFile(filepath)
+	utils.CheckError(err)
+	//fmt.Print(string(file))
+	readedFile = string(file)
 	return
 }
 
-func ConvertToStoreStruct(readedFile *os.File)(stores []*tableTemplate.Store){
-	stores = []*tableTemplate.Store{}
-	err := UnmarshalFile(clientsFile, &clients)
+func ReadStore(readedFile string){
+	reader := csv.NewReader(strings.NewReader(readedFile))
+	reader.Comma = ';'
+	reader.Comment = '#'
+	reader.Read()
+	for {
+		record, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(record)
+	}
 }
 
-if err := gocsv.UnmarshalFile(clientsFile, &clients); err != nil { // Load clients from file
-panic(err)
-}
-for _, client := range clients {
-fmt.Println("Hello", client.Name)
-}
