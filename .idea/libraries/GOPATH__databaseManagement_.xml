@@ -2,11 +2,13 @@
   <library name="GOPATH &lt;databaseManagement&gt;">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../test" />
+      <root url="file://$PROJECT_DIR$/../.git" />
       <root url="file://$PROJECT_DIR$/../.idea" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/../test" />
+      <root url="file://$PROJECT_DIR$/../.git" />
       <root url="file://$PROJECT_DIR$/../.idea" />
     </SOURCES>
     <excluded>
