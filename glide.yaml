@@ -1,3 +1,4 @@
 package: databaseManagement
 import:
 - package: gopkg.in/mgo.v2
+- package: github.com/gocarina/gocsv
