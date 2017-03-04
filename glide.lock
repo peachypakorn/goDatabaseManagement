@@ -1,4 +1,4 @@
-hash: 7aa6241b540e04d7fe4c770c8d5c821cbd9e38e1c63c7e48a06402ec07010615
+    hash: 7aa6241b540e04d7fe4c770c8d5c821cbd9e38e1c63c7e48a06402ec07010615
 updated: 2017-02-15T01:01:54.317901965+07:00
 imports:
 - name: github.com/gocarina/gocsv

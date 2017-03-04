@@ -1,41 +1,32 @@
 package autofillDB
 
 import (
-	"encoding/csv"
-	"io/ioutil"
 	"databaseManagement/utils"
-	"strings"
 	"databaseManagement/tableTemplate"
-
+	"os"
+	"github.com/gocarina/gocsv"
+	"fmt"
 )
 
-func ReadFile(filepath string)(readedFile string){
-	file, err := ioutil.ReadFile(filepath)
+func ReadFile(filepath string)(file *os.File){
+	file, err := os.OpenFile(filepath, os.O_RDWR|os.O_CREATE, os.ModePerm)
 	utils.CheckError(err)
-	//fmt.Print(string(file))
-	readedFile = string(file)
+	//defer file.Close()
+	return file
+}
+
+func UnmarshalStore(file *os.File)(stores []*tableTemplate.Store){
+	err := gocsv.UnmarshalFile(file,&stores)
+
+	utils.CheckError(err)
+	for _, store := range stores {
+		fmt.Println("Hello", store.StoreName)
+	}
 	return
 }
 
-func ReadStore(readedFile string)(data *csv.Reader){
-	data = csv.NewReader(strings.NewReader(readedFile))
-	data.Comma = ';'
-	data.Comment = '#'
-	data.TrimLeadingSpace = true
-	//just read header
-	data.Read()
-	return
-}
+func FillStruct(stores []*tableTemplate.Store)(){
 
-func FillStruct(data *csv.Reader)(stores []tableTemplate.Store){
-	//store := new(tableTemplate.Store)
-
-	//rs, _ := csv.(data, store)
-	//for rs.Get() {
-	//	if date.Year == p.Joined.Year {
-	//		fmt.Println(p)
-	//	}
-	//}
 	return
 }
 
