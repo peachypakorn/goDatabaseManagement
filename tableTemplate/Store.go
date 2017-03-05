@@ -26,20 +26,25 @@ type Store struct {
 	LastAddStock	time.Time `csv:"-"`
 }
 type Weekday struct {
-	days []time.Weekday
+	Days []time.Weekday
 }
 // Convert the CSV string as internal date
-func (weekdays Weekday) UnmarshalCSV(csv string) (err error) {
+func (weekdays *Weekday) UnmarshalCSV(csv string) (err error) {
 	//fmt.Print(csv)
 	dates := strings.Split(csv,"-")
+
 	for _,date := range dates{
-		numberDate,err := strconv.Atoi(date)
-		utils.CheckError(err)
-		if(numberDate>7){
-			numberDate = 7
+		if date != "" {
+			numberDate,err := strconv.Atoi(date)
+			utils.CheckError(err)
+			if(numberDate>=7){
+				numberDate = 0
+			}
+			weekdays.Days = append(weekdays.Days,time.Weekday(numberDate))
+
 		}
-		weekdays.days = append(weekdays.days,time.Weekday(numberDate))
 	}
+	//fmt.Print(weekdays.Days)
 	return nil
 }
 
@@ -47,20 +52,18 @@ type timesHHMM struct {
 	time.Time
 }
 //Mon Jan 2 15:04:05 -0700 MST 2006
-func (times timesHHMM) UnmarshalCSV(csv string) (err error) {
+func (times *timesHHMM) UnmarshalCSV(csv string) (err error) {
 	if len(csv) <=2 {
 		csv += ".00"
 	} else if len(csv)==3{
 		csv+= "0"
 	}
-	tempTime,err := strconv.ParseFloat(csv,32)
+	value := strings.Split(csv,".")
+	hour,err := strconv.Atoi(value[0])
+	minute,err := strconv.Atoi(value[1])
 	utils.CheckError(err)
-	if tempTime >= 13{
-		csv+="pm"
-	} else {
-		csv+="am"
-	}
-	times.Time, err = time.Parse("11:04pm", csv)
-	fmt.Print(csv+"  "+times.Time.String())
+	times.Time = times.Time.Add(time.Hour*time.Duration(hour)+time.Minute*time.Duration(minute))
+		fmt.Print(csv+"  "+times.Time.String())
 	return nil
 }
+

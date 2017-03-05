@@ -20,7 +20,7 @@ func UnmarshalStore(file *os.File)(stores []*tableTemplate.Store){
 
 	utils.CheckError(err)
 	for _, store := range stores {
-		fmt.Println("Hello", store.StoreName)
+		fmt.Println("Hello", store.StartTime.Time)
 	}
 	return
 }
