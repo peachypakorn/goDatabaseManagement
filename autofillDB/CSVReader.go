@@ -5,7 +5,8 @@ import (
 	"databaseManagement/tableTemplate"
 	"os"
 	"github.com/gocarina/gocsv"
-	"fmt"
+	"strings"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func ReadFile(filepath string)(file *os.File){
@@ -20,7 +21,11 @@ func UnmarshalStore(file *os.File)(stores []*tableTemplate.Store){
 
 	utils.CheckError(err)
 	for _, store := range stores {
-		fmt.Println("Hello", store.StartTime.Time)
+		store.StoreName = strings.TrimSpace(store.StoreName)
+		store.StoreID = bson.NewObjectId()
+		//res2B, _ := json.Marshal(store)
+		//fmt.Println(string(res2B))
+		//fmt.Println(store.EnteringDay)
 	}
 	return
 }

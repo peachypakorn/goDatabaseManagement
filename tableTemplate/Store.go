@@ -4,17 +4,15 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"time"
 	"databaseManagement/utils"
-	"fmt"
-
 	"strings"
 	"strconv"
 
 )
 type Store struct {
 	StoreID  	bson.ObjectId `csv:"-",bson:"_id,omitempty"`
-	StoreName 	string `csv:"StoreID"`
-	Branch    	string `csv:"StoreName"`
-	Phone     	string `csv:"Branch"`
+	StoreName 	string `csv:"StoreName"`
+	Branch    	string `csv:"Branch"`
+	Phone     	string `csv:"-"`
 	City		string `csv:"City"`
 	Province	string `csv:"Province"`
 	EnteringDay	Weekday `csv:"EnteringDay"`
@@ -63,7 +61,7 @@ func (times *timesHHMM) UnmarshalCSV(csv string) (err error) {
 	minute,err := strconv.Atoi(value[1])
 	utils.CheckError(err)
 	times.Time = times.Time.Add(time.Hour*time.Duration(hour)+time.Minute*time.Duration(minute))
-		fmt.Print(csv+"  "+times.Time.String())
+	//fmt.Print(csv+"  "+times.Time.String())
 	return nil
 }
 
