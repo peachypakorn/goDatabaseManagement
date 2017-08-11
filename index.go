@@ -1,17 +1,16 @@
 package main
 
 import (
-	"databaseManagement/autofillDB"
 	"databaseManagement/databaseConnection"
+	"databaseManagement/databaseUtil"
 )
 
 func main(){
-	databaseConnection.DropAllDatabase();
-	//databaseConnection.DropOldDatabase("test2");
-	file := autofillDB.ReadFile("/home/peachy/gopath/src/databaseManagement/asset/store.csv")
-	stores := autofillDB.UnmarshalStore(file)
-	//stores = autofillDB.
+	//databaseConnection.DropAllDatabase();
+	databaseConnection.DropDatabase("test2");
+	file := databaseUtil.ReadFile("asset/store.csv")
+	//stores := databaseUtil.UnmarshalStore(file)
 	databaseConnection.AddDataToDatabase("pcwutl","stores",[]string{"StoreID"},stores)
-	//autofillDB.FillStruct(store)
+	//databaseUtil.FillStruct(store)
 	//fmt.Print(time.Weekday(1))
 }

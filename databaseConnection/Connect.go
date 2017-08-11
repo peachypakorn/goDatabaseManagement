@@ -25,7 +25,13 @@ func DropDatabase( databaseName string)  {
 	session , err := connect()
 	utils.CheckError(err)
 	defer session.Close()
-
+	names , err := 	session.DatabaseNames()
+	for _, name := range names {
+		if name == databaseName {
+			err = session.DB(databaseName).DropDatabase()
+			utils.CheckError(err)
+		}
+	}
 	err = session.DB(databaseName).DropDatabase()
 	utils.CheckError(err)
 }

@@ -1,4 +1,4 @@
-package autofillDB
+package databaseUtil
 
 import (
 	"databaseManagement/utils"
